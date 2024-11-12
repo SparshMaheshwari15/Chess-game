@@ -1,4 +1,5 @@
-
+- [Introduction](#Chess-Game)
+- [Contact](#Contact)
 # Chess Game
 
 This is a simple 2-player Chess Game built using Java and Swing. It provides a graphical user interface (GUI) where two players can play chess, make valid moves, capture pieces, and check for game-ending conditions like capturing the opponent's King.
