@@ -79,11 +79,6 @@ To run this chess game on your local machine, follow these steps:
 
 ---
 
-### License:
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
 ### Contact:
 
 For issues or questions, please open an issue on the [GitHub Repository]([<repository-url>](https://github.com/SparshMaheshwari15/Chess-game)).
