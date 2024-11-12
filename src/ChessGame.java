@@ -1,4 +1,7 @@
 // ChessGame.java
+
+import javax.swing.JOptionPane;
+
 public class ChessGame {
     protected ChessBoard board;
     private String currentPlayer;
@@ -19,17 +22,31 @@ public class ChessGame {
         return false;
     }
 
-    public boolean movePiece(int startX, int startY, int endX, int endY) {
-        Piece piece = board.getPieceAt(startX, startY);
+    // In ChessGame.java (or where you handle moves and game state)
+public boolean movePiece(int startX, int startY, int endX, int endY) {
+    Piece piece = board.getPieceAt(startX, startY);
+    Piece targetPiece = board.getPieceAt(endX, endY);
 
-        // Check if the move is valid for the piece
-        if (piece != null && piece.isValidMove(startX, startY, endX, endY, board)) {
-            board.setPieceAt(endX, endY, piece); // Move piece to new location
-            board.setPieceAt(startX, startY, null); // Clear old location
-            return true;
+    // Validate the move as per chess rules
+    if (piece != null && piece.isValidMove(startX, startY, endX, endY, board)) {
+        
+        // Check if the target piece is a King
+        if (targetPiece instanceof King) {
+            // End the game
+            System.out.println("Game Over! " + piece.getColor() + " wins by capturing the king.");
+            JOptionPane.showMessageDialog(null, piece.getColor() + " wins! Game Over.");
+            return true;  // Or set a flag to indicate the game is over
         }
-        return false; // Invalid move
+
+        // Execute the move
+        board.setPieceAt(endX, endY, piece);
+        board.setPieceAt(startX, startY, null);
+
+        return true; // Move successful
     }
+    return false; // Invalid move
+}
+
 
     // ChessGame.java
     public ChessBoard getBoard() {

@@ -1,8 +1,10 @@
+
 // ChessGameGUI.java
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
 
 public class ChessGameGUI {
     private JFrame frame;
@@ -25,25 +27,32 @@ public class ChessGameGUI {
                 frame.add(buttons[row][col]);
             }
         }
-        
+
         updateBoard();
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
 
-    private void updateBoard() {
+    public void updateBoard() {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
-                Piece piece = game.getBoard().getPieceAt(row, col);
-                // buttons[row][col].setText(piece == null ? "" : piece.getClass().getSimpleName().substring(0, 1));
+                Piece piece = game.board.getPieceAt(row, col);
                 if (piece != null) {
-                    String pieceColor = piece.getColor(); // Get color of the piece
-                    String pieceSymbol = piece.getClass().getSimpleName().substring(0, 1); // Get the piece's symbol (e.g., P for Pawn)
-                    String displayText = pieceColor.equals("White") ? pieceSymbol.toUpperCase() : pieceSymbol.toLowerCase();
-                    buttons[row][col].setText(displayText); // Display the piece with correct color
+                    String pieceColor = piece.getColor().toLowerCase(); // Get color of the piece
+                    String pieceType = piece.getClass().getSimpleName().toLowerCase(); // Get piece type (e.g., "pawn",
+                                                                                       // "knight")
+
+                    // Construct the direct path to the image in the assets folder
+                    String imagePath = "Y:/ChessGameProject/assets/" + pieceColor + "_" + pieceType + ".png";
+
+                    // Load the image directly from the file path
+                    ImageIcon pieceImage = new ImageIcon(imagePath);
+
+                    // Set the image icon on the button
+                    buttons[row][col].setIcon(pieceImage);
                 } else {
-                    buttons[row][col].setText(""); // Empty cell
+                    buttons[row][col].setIcon(null); // Empty cell
                 }
             }
         }
@@ -70,6 +79,10 @@ public class ChessGameGUI {
                 // Second click: move piece
                 if (game.movePiece(startX, startY, row, col)) {
                     updateBoard(); // Update the GUI after a valid move
+                } else {
+                    // Display an error message if the move is invalid
+                    JOptionPane.showMessageDialog(frame, "Invalid move! Please try again.", "Error",
+                            JOptionPane.ERROR_MESSAGE);
                 }
                 // Reset selection
                 startX = -1;
