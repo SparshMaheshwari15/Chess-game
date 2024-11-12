@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JOptionPane;
 
 public class ChessGameGUI {
     private JFrame frame;
@@ -59,6 +58,7 @@ public class ChessGameGUI {
     }
 
     // Action listener for button clicks
+    /*
     private class ButtonClickListener implements ActionListener {
         private int row, col;
 
@@ -90,6 +90,60 @@ public class ChessGameGUI {
             }
         }
     }
+     */
+    private class ButtonClickListener implements ActionListener {
+    private int row, col;
+
+    public ButtonClickListener(int row, int col) {
+        this.row = row;
+        this.col = col;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (startX == -1 && startY == -1) {
+            // First click: select piece
+            if (game.getBoard().getPieceAt(row, col) != null) { // Select only if there's a piece
+                startX = row;
+                startY = col;
+            }
+        } else {
+            // Second click: move piece
+            if (game.movePiece(startX, startY, row, col)) {
+                updateBoard(); // Update the GUI after a valid move
+
+                // Check if the game is over (win/lose condition, checkmate, etc.)
+                if (game.isGameOver()) {
+                    // Show dialog to restart or close the game
+                    int choice = JOptionPane.showOptionDialog(frame,
+                            "Game Over! Do you want to restart or close the game?",
+                            "Game Over",
+                            JOptionPane.YES_NO_OPTION,
+                            JOptionPane.QUESTION_MESSAGE,
+                            null,
+                            new Object[] {"Restart", "Close"},
+                            "Restart");
+
+                    if (choice == JOptionPane.YES_OPTION) {
+                        restartGame(); // Restart the game
+                    } else {
+                        System.exit(0); // Close the game
+                    }
+                }
+            } else {
+                // Display an error message if the move is invalid
+                JOptionPane.showMessageDialog(frame, "Invalid move! Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            // Reset selection
+            startX = -1;
+            startY = -1;
+        }
+    }
+}
+public void restartGame() {
+    game = new ChessGame(); // Create a new game object to reset the game state
+    updateBoard(); // Update the GUI to show the initial board state
+}
 
     public static void main(String[] args) {
         new ChessGameGUI();
