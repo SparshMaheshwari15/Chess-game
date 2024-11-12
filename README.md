@@ -1,4 +1,11 @@
 - [Introduction](#Chess-Game)
+- [Features](#Features)
+- [Technologies Used](#Technologies-Used)
+- [Installation](#Installation)
+- [How to Play](#How-to-Play)
+- [Classes](#Classes)
+- [Sample Gameplay](#Sample-Gameplay)
+- [Example of Game Flow](#Example-of-Game-Flow)
 - [Contact](#Contact)
 # Chess Game
 
